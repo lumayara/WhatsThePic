@@ -1,0 +1,2 @@
+# WhatsThePic
+ Serverless Framework is creates the Lambda function, a S3 bucket called whatpicisit2020, and a DynamoDB table (picTable) then it uploads a couple of pictures that are inside a images file. After I run serverless deploy, my lambda function is invoked and it transfer the information of my picture in the buckets (the link) to Dynamo and it also calls for AWS Rekognition and it also saves the results in the description field in Dynamo
