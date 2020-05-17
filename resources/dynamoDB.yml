@@ -1,0 +1,18 @@
+Resources:
+  picTable: 
+    Type: AWS::DynamoDB::Table
+    # DeletionPolicy: Retain --I can use this to add a deletion policy
+    Properties:
+      TableName: ${self:custom.table} #Getting the name of table I defined under custom in serverless.yml
+      AttributeDefinitions:
+        - AttributeName: pictureLink
+          AttributeType: S
+        - AttributeName: description
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pictureLink
+          KeyType: HASH
+        - AttributeName: description
+          KeyType: RANGE
+      # Set the capacity to auto-scale
+      BillingMode: PAY_PER_REQUEST

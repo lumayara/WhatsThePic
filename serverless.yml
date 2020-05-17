@@ -1,0 +1,67 @@
+# org: lumayaraads #my username in serverless account
+# app: whatsthepic #my serverless app name
+service: whatisthepic #name the service here.. it will also be the name of your stack
+
+frameworkVersion: ">=1.1.0"
+
+custom:
+  bucket: whatpicisit2020 #unique global name it will create for the bucket
+  table: picTable #table name it will create in dynamo
+  s3-sync: 
+      - folder: images
+        bucket: ${self:custom.bucket}
+  remover: 
+     buckets:
+       - ${self:custom.bucket}
+
+plugins:
+  - serverless-s3bucket-sync #plugin to upload files in bucket
+  - serverless-s3-remover #plugin to clean and remove bucket if it is not empty
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    #S3 Permissions
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::${self:custom.bucket}"
+    #DynamoDB Permissions
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchWriteItem
+      Resource:
+        - "arn:aws:dynamodb:us-east-1:*:*"
+    #Rekognition
+    - Effect: "Allow"
+      Action:
+        - "rekognition:*"
+      Resource: "*"
+
+functions:
+  getFiles:
+    handler: handler.getFiles
+    environment:
+      BUCKET: ${self:custom.bucket}
+  saveToDB:
+    handler: handler.saveToDB
+    environment:
+      BUCKET: ${self:custom.bucket}
+      TABLE: ${self:custom.table}
+  imageRekognition:
+    handler: handler.imageRekognition
+resources:
+  #Adding resources in external file
+  - ${file(resources/s3-bucket.yml)}
+  - ${file(resources/dynamoDB.yml)}
+    
