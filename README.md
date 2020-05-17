@@ -82,7 +82,7 @@ We first Create Resources with Serverles:
 
 After downloading this plugin, run:
 
-```
+```bash
 npm install
 ```
 
@@ -97,7 +97,7 @@ custom:
 
 In order to deploy the you endpoint simply run
 
-```
+```bash
 serverless deploy
 ```
 
@@ -125,7 +125,8 @@ The expected result should be similar to:
 It will also print the results from Rekognition from each image
 
 You can delete the stack and deployment running:
-```serverless remove
+```bash
+serverless remove
 ```
 It was my first time using and learning Serverless Framework.
 It was fun!
