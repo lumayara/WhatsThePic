@@ -127,3 +127,6 @@ It will also print the results from Rekognition from each image
 You can delete the stack and deployment running:
 ```serverless remove
 ```
+It was my first time using and learning Serverless Framework.
+It was fun!
+Thank you! =)
